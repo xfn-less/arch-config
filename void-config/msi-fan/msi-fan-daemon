@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""Fan-only service for verified MS-14K2 / EC 14K2EMS1.110."""
+import fcntl
+import os
+from pathlib import Path
+import runpy
+import signal
+import sys
+import time
+
+# Reuse the root-owned test tool's checked EC access and readback functions.
+helpers = runpy.run_path('/usr/local/bin/msi-fan-test')
+access, read, write = (helpers[k] for k in ('access', 'read', 'write'))
+CPU, GPU = helpers['CPU'], helpers['GPU']
+TARGET = [30, 42, 48, 58, 70, 90, 100]
+TEMPS = {0x6a: bytes([57, 62, 70, 77, 83, 90]),
+         0x82: bytes([50, 60, 65, 70, 78, 83])}
+
+def stop(signum, frame):
+    raise KeyboardInterrupt
+
+def log(text):
+    print(text, flush=True)
+
+def main():
+    if os.geteuid() != 0:
+        raise RuntimeError('Must run as root')
+    if Path('/sys/class/dmi/id/board_name').read_text().strip() != 'MS-14K2':
+        raise RuntimeError('Wrong motherboard')
+    lock = open('/run/lock/msi-fan.lock', 'a')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    signal.signal(signal.SIGTERM, stop)
+    signal.signal(signal.SIGHUP, stop)
+    with access() as fd:
+        def verify_map():
+            if read(fd, 0xa0, 12) != b'14K2EMS1.110':
+                raise RuntimeError('Unsupported firmware; no further control writes')
+            for addr, expected in TEMPS.items():
+                if read(fd, addr, 6) != expected:
+                    raise RuntimeError('Temperature thresholds changed; refusing to control')
+        verify_map()
+        if read(fd, 0xd4)[0] != 0x0d:
+            raise RuntimeError('Expected automatic mode at startup')
+        for base, stock in (CPU, GPU):
+            if list(read(fd, base, 7)) != stock:
+                raise RuntimeError('Expected stock curve at startup')
+        original = {a: read(fd, a)[0] for a in
+                    list(range(0x72, 0x79)) + list(range(0x8a, 0x91)) + [0xd4]}
+        changed = set()
+        def apply():
+            for base, _ in (CPU, GPU):
+                for i, value in enumerate(TARGET):
+                    addr = base + i
+                    changed.add(addr)
+                    write(fd, addr, value)
+            changed.add(0xd4)
+            write(fd, 0xd4, 0x8d)
+        try:
+            apply()
+            log('Applied both fan curves: ' + str(TARGET) + '; temperature thresholds unchanged')
+            last_log = 0
+            while True:
+                verify_map()
+                mode = read(fd, 0xd4)[0]
+                curves = [list(read(fd, base, 7)) for base, _ in (CPU, GPU)]
+                # Resume can reset known settings. Reapply only if BOTH curves
+                # and mode are exactly stock, never overwrite unknown changes.
+                if mode == 0x0d and curves == [CPU[1], GPU[1]]:
+                    log('Verified stock reset detected; reapplying fan-only settings')
+                    apply()
+                elif mode != 0x8d or curves != [TARGET, TARGET]:
+                    raise RuntimeError('Unknown external fan setting change; stopping')
+                temp = read(fd, 0x68)[0]
+                if temp >= 85:
+                    raise RuntimeError('85 C safety fallback; restoring firmware automatic mode')
+                # Cooler Boost is independent. Observe it without changing it.
+                if time.monotonic() - last_log >= 60:
+                    log(f'CPU {temp} C; fan1 {read(fd, 0x71)[0]}; fan2 {read(fd, 0x89)[0]}; boost {bool(read(fd, 0x98)[0] & 0x80)}')
+                    last_log = time.monotonic()
+                time.sleep(5)
+        except KeyboardInterrupt:
+            log('Stop requested')
+        finally:
+            # Restoring EC is safe only while the verified firmware is still
+            # present. Do not write this map after a firmware change.
+            if read(fd, 0xa0, 12) != b'14K2EMS1.110':
+                raise RuntimeError('Firmware changed; cannot safely restore')
+            errors = []
+            for addr in sorted(changed):
+                try:
+                    write(fd, addr, original[addr])
+                except Exception as e:
+                    errors.append(str(e))
+            if errors:
+                raise RuntimeError('RESTORE FAILED: ' + '; '.join(errors))
+            log('Stock curves and automatic mode restored and verified')
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception as e:
+        log('ERROR: ' + str(e))
+        sys.exit(1)

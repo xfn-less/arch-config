@@ -72,7 +72,7 @@
 - `443` 留给网站
 - `8443`：香港 Xray
 - `9443`：转发到国内 `183.56.236.235:443`
-- `3389`：xrdp 只听本机，SSH 隧道后连；工作机见 `void-config/work-config.sh`
+- `33890`：xrdp 公网直连 `IP:33890`；工作机见 `void-config/work-config.sh`
 - Xray 配置：`/usr/local/etc/xray/config.json`
 - 转发配置：`/etc/systemd/system/xray-relay.{socket,service}`
 

@@ -1,0 +1,8 @@
+#!/bin/sh
+# Disable on errors rather than repeatedly writing EC after a failure.
+if [ "$1" != "0" ]; then
+    echo "msi-fan stopped after an error; inspect /var/log/msi-fan/current before enabling again"
+    touch /etc/sv/msi-fan/down
+    sv -w 1 down /etc/sv/msi-fan || true
+fi
+exit 0

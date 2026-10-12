@@ -1,9 +1,20 @@
 #!/bin/bash
-# Debian12：xrdp+TG+sakura+Firefox+fcitx5；公网 40296/443/8443/9443；3389 仅本机
-# 隧道 ssh -p 40296 -N -L 3389:127.0.0.1:3389 xfn@主机
-# SSH：99-harden.conf；重连前 pkill Xorg openbox telegram-desktop sakura firefox tint2
+# Debian12：xrdp+TG+sakura+Firefox+fcitx5；公网 40296/443/8443/9443/33890
+# RDP：ip:33890（无需 SSH 隧道）
+# SSH：ssh -p 40296 xfn@103.146.230.179
 # 会话：~/.xsession（fcitx5 + TG + sakura + tint2 + openbox）
 # 输入法：自然码 zrm（词库 fcitx5-chinese-addons/libime；用户词 ~/.local/share/fcitx5/table/zrm.*）
+#
+# TG 日期提醒（长轮询，秒回；不要再用 Google Apps Script）
+#   装：bash void-config/tg-remind/install.sh
+#       （token 在 void-config/tg-remind/.env，不入库）
+#   目录/账本：~/tg-remind/  ~/tg-remind/ledger.txt
+#   日志：journalctl --user -u tg-remind -f
+#   状态：systemctl --user status tg-remind
+#   停：  systemctl --user disable --now tg-remind
+#   用法：11-13 说明  |  +01-01 明年  |  - 说明  |  ls 看表  |  多行覆盖
+#   每天 6:00 / 18:00 Asia/Shanghai 推整表
+#   先关掉 GAS 全部触发器，装的时候会 deleteWebhook
 
 sudo apt-get update
 sudo apt-get install --no-install-recommends \
@@ -42,5 +53,20 @@ EOF
 chmod +x ~/.xsession
 
 sudo adduser "$USER" ssl-cert
-sudo sed -i '0,/^port=3389$/s//port=tcp:\/\/127.0.0.1:3389/' /etc/xrdp/xrdp.ini
+sudo python3 - <<'PY'
+from pathlib import Path
+path = Path("/etc/xrdp/xrdp.ini")
+lines = path.read_text().splitlines(keepends=True)
+section = None
+out = []
+for line in lines:
+	stripped = line.strip()
+	if stripped.startswith("[") and stripped.endswith("]"):
+		section = stripped[1:-1]
+	if line.startswith("port=") and section == "Globals":
+		line = "port=33890\n"
+	out.append(line)
+path.write_text("".join(out))
+PY
 sudo systemctl enable --now xrdp
+sudo systemctl restart xrdp

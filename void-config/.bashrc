@@ -100,12 +100,14 @@ alias lf=lfcd
 
 ni() {
 	if [[ -n ${WAYLAND_DISPLAY:-} || -n ${DISPLAY:-} ]]; then
-		printf 'Graphical session already running.\n' >&2
+		echo "请先退出当前图形会话，再从 TTY 运行 ni。" >&2
 		return 1
 	fi
-	export XDG_RUNTIME_DIR="/tmp/xdg-runtime-$UID"
+	export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg-runtime-$UID}"
 	install -d -m 700 "$XDG_RUNTIME_DIR" || return
-	dbus-run-session niri --session
+	XDG_CURRENT_DESKTOP=niri XDG_SESSION_TYPE=wayland \
+		GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx \
+		dbus-run-session niri --session
 }
 
 HISTSIZE=100000

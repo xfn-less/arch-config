@@ -1,6 +1,0 @@
-#!/bin/sh
-# 简单降频：全核 powersave（无 TLP）
-for g in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
-	[ -w "$g" ] || continue
-	printf 'powersave\n' >"$g"
-done

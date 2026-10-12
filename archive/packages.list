@@ -1,8 +1,0 @@
-01系统|base-system grub-x86_64-efi bash-completion git openssh fzf file chafa chrony wpa_supplicant dhcpcd iw
-02硬件|mesa-dri
-02硬件/MSI|intel-ucode intel-video-accel sof-firmware
-03桌面|niri dbus seatd wlsunset brightnessctl xdg-utils gnome-themes-extra glib gsettings-desktop-schemas alacritty font-inconsolata-otf wqy-microhei fcitx5 fcitx5-chinese-addons keyd alsa-utils swayidle swaylock grim slurp swappy wl-clipboard
-04应用/编辑器|vim
-04应用/浏览器|firefox
-05按需/格式化|StyLua shfmt ruff go nodejs
-05按需|htop fastfetch dufs socklog-void mesa-vulkan-radeon telegram-desktop zip unzip 7zip xz imv mpv

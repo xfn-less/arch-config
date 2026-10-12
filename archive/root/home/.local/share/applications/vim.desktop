@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Vim
-Exec=alacritty -e vim %F
-Terminal=false
-Categories=Utility;TextEditor;
-MimeType=text/plain;text/markdown;application/json;application/xml;

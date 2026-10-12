@@ -16,6 +16,9 @@ Documents/
 **/.config/htop/htop_history
 **/accounts.json
 **/pppuser.csv
+void-config/tg-remind/.env
+void-config/tg-remind/state.json
+void-config/tg-remind/ledger.txt
 
 # Zig / Python / Emacs 产物。
 **/.zig-cache/
