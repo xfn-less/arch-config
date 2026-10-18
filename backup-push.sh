@@ -1,9 +1,9 @@
 #!/bin/sh
-# 手动备份：看 arch-config / arch-work 状况，确认后再 commit + push（全部改动含新文件）。
+# 手动备份：三个仓库确认后 commit + push（全部改动含新文件）。
 set -eu
 export GIT_PAGER=cat
 
-repos='/home/xfn/arch-config /home/xfn/arch-work'
+repos='/home/xfn/arch-config /home/xfn/arch-work /home/xfn/arch-webdev'
 
 for repo in $repos; do
 	printf '\n======== %s ========\n' "$repo"
@@ -38,11 +38,6 @@ for repo in $repos; do
 	else
 		printf 'no changes %s\n' "$repo"
 	fi
-	if git -C "$repo" rev-parse '@{u}' >/dev/null 2>&1; then
-		ahead=$(git -C "$repo" rev-list --count '@{u}..HEAD')
-		if [ "$ahead" -gt 0 ]; then
-			git -C "$repo" push origin HEAD
-			printf 'pushed %s\n' "$repo"
-		fi
-	fi
+	git -C "$repo" push -u origin HEAD
+	printf 'pushed %s\n' "$repo"
 done
