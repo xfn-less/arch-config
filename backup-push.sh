@@ -1,6 +1,7 @@
 #!/bin/sh
 # 手动备份：看 arch-config / arch-work 状况，确认后再 commit + push（全部改动含新文件）。
 set -eu
+export GIT_PAGER=cat
 
 repos='/home/xfn/arch-config /home/xfn/arch-work'
 
