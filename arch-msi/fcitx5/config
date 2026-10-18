@@ -1,0 +1,8 @@
+[Behavior]
+ActiveByDefault=False
+resetStateWhenFocusIn=All
+ShareInputState=No
+ShowInputMethodInformation=True
+showInputMethodInformationWhenFocusIn=True
+ShowFirstInputMethodInformation=True
+CompactInputMethodInformation=True

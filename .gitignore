@@ -16,9 +16,9 @@ Documents/
 **/.config/htop/htop_history
 **/accounts.json
 **/pppuser.csv
-void-config/tg-remind/.env
-void-config/tg-remind/state.json
-void-config/tg-remind/ledger.txt
+**/tg-remind/.env
+**/tg-remind/state.json
+**/tg-remind/ledger.txt
 
 # Zig / Python / Emacs 产物。
 **/.zig-cache/
@@ -29,22 +29,3 @@ __pycache__/
 *.py[cod]
 *.elc
 *.eln
-
-# archive 里的家目录配置：目录可遍历，文件默认不纳入，只放行下面这些。
-/archive/root/home/.config/**
-!/archive/root/home/.config/**/
-!/archive/root/home/.config/alacritty/**
-!/archive/root/home/.config/fcitx5/config
-!/archive/root/home/.config/fcitx5/profile
-!/archive/root/home/.config/fcitx5/conf/classicui.conf
-!/archive/root/home/.config/fcitx5/conf/clipboard.conf
-!/archive/root/home/.config/fcitx5/conf/pinyin.conf
-!/archive/root/home/.config/fontconfig/**
-!/archive/root/home/.config/htop/htoprc
-!/archive/root/home/.config/mimeapps.list
-!/archive/root/home/.config/mimeapps.list.example
-!/archive/root/home/.config/niri/**
-
-/archive/root/home/.local/share/**
-!/archive/root/home/.local/share/**/
-!/archive/root/home/.local/share/applications/vim.desktop
