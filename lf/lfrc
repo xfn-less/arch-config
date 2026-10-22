@@ -34,6 +34,7 @@ setlocal ~/.trash reverse
 setlocal ~/.trash dirfirst false
 setlocal ~/.trash info size:ctime
 
+map e $vis "$f"
 map a :push %touch<space>
 map A :push %mkdir<space>
 

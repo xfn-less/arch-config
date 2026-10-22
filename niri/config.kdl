@@ -1,6 +1,6 @@
-environment {
-    GTK_THEME "Adwaita:dark"
-}
+//environment {
+//    GTK_THEME "Adwaita:dark"
+//}
 
 input {
     disable-power-key-handling
@@ -23,11 +23,6 @@ input {
     mouse { accel-speed 0.2; }
 }
 
-cursor {
-    xcursor-theme "Adwaita"
-    xcursor-size 24
-}
-
 layout {
     preset-column-widths { proportion 0.382; proportion 0.618; proportion 1.0; }
     default-column-width { proportion 0.618; }
@@ -46,49 +41,39 @@ layout {
     }
 }
 
-// 固定壁纸，桌面和 overview 共用；工作区背景须保持透明。
 layer-rule {
     match namespace="^wallpaper$"
     place-within-backdrop true
 }
-overview {
-    workspace-shadow { off; }
-}
-
-prefer-no-csd
-hotkey-overlay { skip-at-startup; }
-window-rule { open-floating false; }
-
 output "eDP-1" {
     scale 1.5
     mode "2560x1600@60.003"
 }
 
-gestures {
-    hot-corners { off; }
-}
+prefer-no-csd
+hotkey-overlay { skip-at-startup; }
+window-rule { open-floating false; }
 animations { off; }
-
 recent-windows { off; }
 
 spawn-at-startup "swayidle" "-w" \
-    "timeout" "180" "swaylock -u -f -c 000000" \
-    "timeout" "240" "niri msg action power-off-monitors" \
-    "before-sleep" "swaylock -u -f -c 000000"
+    "timeout" "182" "swaylock -u -f -c 000000" \
+    "timeout" "240" "niri msg action power-off-monitors"
 spawn-at-startup "swaybg" "-i" "/home/xfn/.config/niri/bg.jpg" "-m" "fill"
 spawn-at-startup "fcitx5"
 spawn-at-startup "alacritty"
+spawn-at-startup "dbar"
 spawn-at-startup "wlsunset" "-l" "20" "-L" "100"
 
 binds {
-//    Mod+escape repeat=false { power-off-monitors; }
-//Mod+l repeat=false { spawn "swaylock" "-f" "-u" "-c" "000000"; }
-Mod+escape repeat=false { spawn-sh "swaylock -f -u -c 000000 && niri msg action power-off-monitors"; }
+    Mod+escape repeat=false { spawn-sh "swaylock -f -u -c 000001 && niri msg action power-off-monitors"; }
     Mod+a repeat=false { spawn "alacritty"; }
     Mod+c repeat=false { spawn "firefox"; }
+    Mod+return repeat=false { spawn "fuzzel"; }
     Mod+p repeat=false { spawn-sh "grim - | swappy -f - -o - | wl-copy -t image/png"; }
     Mod+q repeat=false { spawn-sh "grim -g \"$(slurp)\" - | swappy -f - -o - | wl-copy -t image/png"; }
     Mod+r repeat=false { switch-preset-column-width; }
+    Mod+v repeat=false { toggle-overview; }
     Mod+alt+q repeat=false { close-window; }
 
     Mod+s cooldown-ms=70 { focus-column-left; }
@@ -102,6 +87,9 @@ Mod+escape repeat=false { spawn-sh "swaylock -f -u -c 000000 && niri msg action 
 
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "1%-"; }
     XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "set" "1%+"; }
+    Mod+XF86AudioLowerVolume allow-when-locked=true { spawn "brightnessctl" "set" "1%-"; }
+    Mod+XF86AudioRaiseVolume allow-when-locked=true { spawn "brightnessctl" "set" "1%+"; }
+
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "1%-"; }
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "1%+"; }
     XF86AudioMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
