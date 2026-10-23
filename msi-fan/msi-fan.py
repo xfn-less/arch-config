@@ -44,7 +44,9 @@ def access():
                 run('umount', str(DEBUG))
         finally:
             if loaded:
-                run('modprobe', '-r', 'ec_sys')
+                # Don't fail the service after a successful restore just because
+                # unload races a reboot / missing modules tree.
+                subprocess.run(['modprobe', '-r', 'ec_sys'], check=False)
 
 
 def read(fd, addr, count=1):
