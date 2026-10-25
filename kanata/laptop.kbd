@@ -1,0 +1,78 @@
+;; 按 /etc/keyd/laptop.conf 迁移；硬件 Fn 不由 Kanata 处理。
+(defcfg
+  process-unmapped-keys yes
+  delegate-to-first-layer yes
+  linux-dev-names-include ("AT Translated Set 2 keyboard")
+  linux-continue-if-no-devs-found yes
+  linux-output-device-name "kanata-laptop"
+  movemouse-inherit-accel-state yes
+  movemouse-smooth-diagonals yes
+)
+
+(defsrc
+  esc      f1       f2       f3       f4       f5       f6       f7       f8       f9       f10      f11      f12
+  grv      1        2        3        4        5        6        7        8        9        0        min      eql      bspc
+  tab      q        w        e        r        t        y        u        i        o        p        lbrc     rbrc     bksl
+  caps     a        s        d        f        g        h        j        k        l        scln     apos              ret
+  lsft     z        x        c        v        b        n        m        comm     .        /                 rsft     up
+  lctl     lmet     lalt                       spc                        ralt              rctl     left     down     rght
+)
+
+(defalias
+  nav    (multi lmet (layer-while-held nav))
+  caps   (tap-hold-release 0 200 esc @nav)
+  enter  (tap-hold-release 0 200 ret @nav)
+  space  (tap-hold-release 0 200 spc lctl)
+  lshift (tap-hold-release 0 200 lbrc lsft)
+  rshift (tap-hold-release 0 200 rbrc lsft)
+  nup    (unmod (lmet) up)
+  ndn    (unmod (lmet) down)
+  nlf    (unmod (lmet) left)
+  nrt    (unmod (lmet) rght)
+  nhm    (unmod (lmet) home)
+  nen    (unmod (lmet) end)
+  npu    (unmod (lmet) pgup)
+  npd    (unmod (lmet) pgdn)
+
+  mouse  (multi (release-layer nav) (release-key lmet) (release-key rmet) (layer-switch mouse))
+  normal (multi (release-key lmet) (release-key rmet) (layer-switch base))
+  winx   (fork x @mouse (lmet rmet))
+  mx     (fork XX @normal (lmet rmet))
+  done   (multi mlft @normal)
+  up     (movemouse-accel-up 10 650 1 12)
+  down   (movemouse-accel-down 10 650 1 12)
+  left   (movemouse-accel-left 10 650 1 12)
+  right  (movemouse-accel-right 10 650 1 12)
+  whup   (mwheel-up 80 120)
+  whdn   (mwheel-down 80 120)
+  whlf   (mwheel-left 80 120)
+  whrt   (mwheel-right 80 120)
+  slow   (movemouse-speed 25)
+)
+
+(deflayer base
+  mlft     f1       f2       f3       f4       f5       f6       f7       f8       f9       f10      f11      f12
+  grv      1        2        3        4        5        6        7        6        7        8        9        0        apos
+  tab      q        w        e        r        t        eql      y        u        i        o        p        bspc     bksl
+  @caps    a        s        d        f        g        min      h        j        k        l        scln              @enter
+  @lshift  z        @winx    c        v        comm     .        b        n        m        /                 @rshift  up
+  lctl     lmet     lalt                       @space                     ralt              rctl     left     down     rght
+)
+
+(deflayer nav
+  _        _        _        _        _        _        _        _        _        _        _        _        _
+  _        _        _        _        _        _        _        _        _        _        _        _        _        _
+  _        _        _        _        _        _        _        @npu     @nhm     @nup     @nen     _        _        _
+  _        _        _        _        _        _        _        @npd     @nlf     @ndn     @nrt     _                 _
+  _        _        _        _        _        _        _        _        _        _        _                 _        _
+  _        _        _                          _                          _                 _        _        _        _
+)
+
+(deflayer mouse
+  @normal  XX       XX       XX       XX       XX       XX       XX       XX       XX       XX       XX       XX
+  XX       XX       XX       XX       XX       XX       XX       XX       XX       XX       XX       XX       XX       XX
+  XX       XX       XX       XX       XX       XX       XX       @whup    @whlf    @up      @whrt    XX       XX       XX
+  @normal  XX       @slow    mrgt     mlft     XX       XX       @whdn    @left    @down    @right   XX                @done
+  lsft     XX       @mx      XX       XX       XX       XX       XX       XX       XX       XX                rsft     @up
+  lctl     lmet     lalt                       XX                         ralt              rctl     @left    @down    @right
+)

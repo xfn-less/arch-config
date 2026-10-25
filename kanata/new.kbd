@@ -1,0 +1,88 @@
+;; 按 /etc/keyd/new.conf 迁移，当前设备为 Hardtochooseone Keyboard。
+;; 按 Vial 实物布局：左右各 3x5 + 3 拇指键，共 36 键、35 个不同键码。
+;; 拇指实物为 lctl/lalt/spc | spc/rsft/rmet；两个 Space 同码，右 Space 槽留空。
+;; keyd 的 [sshift] 没有触发入口，不另造激活方式；Shift 自然修饰 spacefn 输出。
+(defcfg
+  process-unmapped-keys yes
+  delegate-to-first-layer yes
+  linux-dev-names-include ("Hardtochooseone Hardtochooseone Keyboard")
+  linux-continue-if-no-devs-found yes
+  linux-output-device-name "kanata-new"
+  movemouse-inherit-accel-state yes
+  movemouse-smooth-diagonals yes
+)
+
+(defsrc
+  tab      w        e        r        t                 y        u        i        o        bspc
+  a        s        d        f        g                 h        j        k        l        p
+  esc      z        x        c        v                 b        n        m        q        ret
+                    lctl     lalt     spc                        rsft     rmet
+)
+
+(defalias
+  tab    (tap-hold-release 0 200 tab lctl)
+  bspc   (tap-hold-release 0 200 bspc lctl)
+  esc    (tap-hold-release 0 200 esc lmet)
+  enter  (tap-hold-release 0 200 ret lmet)
+  space  (tap-hold-release 0 200 spc (layer-while-held spacefn))
+  ;; 对应 lettermod 的 150ms 连打保护、200ms 长按；计时实现与 keyd 不完全相同。
+  wshift (tap-hold-release 0 200 w lsft (require-prior-idle 150))
+  oshift (tap-hold-release 0 200 o lsft (require-prior-idle 150))
+  ralt   (tap-hold-release 0 200 r lalt (require-prior-idle 150))
+  ualt   (tap-hold-release 0 200 u lalt (require-prior-idle 150))
+  qfn    (tap-hold-release 0 200 q (layer-while-held fn) (require-prior-idle 150))
+
+  one    (tap-hold-release 0 200 1 lsft)
+  three  (tap-hold-release 0 200 3 lalt)
+  home   (tap-hold-release 0 200 home lalt)
+  end    (tap-hold-release 0 200 end lsft)
+  del    (tap-hold-release 0 200 del lctl)
+  grave  (tap-hold-release 0 200 grv lctl)
+  lbrc   (tap-hold-release 0 200 lbrc lmet)
+  rbrc   (tap-hold-release 0 200 rbrc lmet)
+
+  mouse  (multi (release-layer spacefn) (release-layer fn) (release-key lmet) (release-key rmet) (layer-switch mouse))
+  normal (multi (release-key lmet) (release-key rmet) (layer-switch base))
+  winx   (fork x @mouse (lmet rmet))
+  mx     (fork XX @normal (lmet rmet))
+  done   (multi mlft @normal)
+  up     (movemouse-accel-up 10 650 1 12)
+  down   (movemouse-accel-down 10 650 1 12)
+  left   (movemouse-accel-left 10 650 1 12)
+  right  (movemouse-accel-right 10 650 1 12)
+  whup   (mwheel-up 80 120)
+  whdn   (mwheel-down 80 120)
+  whlf   (mwheel-left 80 120)
+  whrt   (mwheel-right 80 120)
+  slow   (movemouse-speed 25)
+)
+
+(deflayer base
+  @tab     @wshift  e        @ralt    t                 y        @ualt    i        @oshift  @bspc
+  a        s        d        f        g                 h        j        k        l        p
+  @esc     z        @winx    c        v                 b        n        m        @qfn     @enter
+                    lctl     mlft     @space                     mrgt     rmet
+)
+
+(deflayer spacefn
+  @grave   @one     2        @three   eql               pgup     @home    up       @end     @del
+  apos     4        5        6        min               pgdn     left     down     rght     scln
+  @lbrc    7        8        9        0                 bksl     comm     .        /        @rbrc
+                    _        _        _                          _        _
+)
+
+(deflayer fn
+  _        f1       f2       f3       f12               _        _        _        _        _
+  _        f4       f5       f6       f11               _        _        _        _        _
+  _        f7       f8       f9       f10               _        _        _        _        _
+                    _        _        _                          _        _
+)
+
+;; new 没有右手平移：逻辑键就是物理键。F/D 可按住，F 拖拽；不设中键。
+;; Tab/Backspace 作 Ctrl、W 作 Shift、R 作 Alt，保留组合点击能力。
+(deflayer mouse
+  lctl     lsft     XX       lalt     XX                @whup    @whlf    @up      @whrt    lctl
+  XX       @slow    mrgt     mlft     XX                @whdn    @left    @down    @right   XX
+  @normal  XX       @mx      XX       XX                XX       XX       XX       XX       @done
+                    lctl     mlft     XX                         mrgt     rmet
+)

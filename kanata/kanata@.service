@@ -1,0 +1,14 @@
+[Unit]
+Description=Kanata keyboard remapper (%i)
+After=systemd-udevd.service keyd.service
+Conflicts=keyd.service
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/modprobe uinput
+ExecStart=/usr/bin/kanata --cfg /etc/kanata/%i.kbd --no-wait
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

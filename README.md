@@ -116,6 +116,7 @@ TTY 启动：`ni`（见 bash）或 `dbus-run-session niri --session`。
 - bash / fzf：后续可换更开箱的 shell
 - fcitx5 自定义 Rime、fontconfig、mihomo、msi-fan、xrdp-config：未动
 - vis / alacritty / keyd / swappy：暂留
+- kanata：当前键盘映射，见 [kanata/README.md](kanata/README.md)；keyd 保留作回退
 
 ### 已归档（`00archive/`）
 
