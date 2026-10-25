@@ -15,6 +15,7 @@
 - `defsrc` 是硬件输入，`base` 是软件输出；对应位置一一匹配，`_` 透传到下一层。
 - `60` / `laptop` 保留原右侧平移、双功能和 Win/nav；`60` 保留 nav 下的 F 区、Delete。
 - `new` 保留 Tab/Backspace Ctrl、Esc/Enter Win、W/O Shift、R/U Alt、Q Fn、Space 数字符号层，以及左 Alt/右 Shift 的左右键。
+- `new` 的 Q/Fn 层额外提供 I/K 亮度加/减、J/L 音量减/加；发送标准媒体键，由 niri 现有绑定处理，每次 1%。
 - `overloadt2` 用 `tap-hold-release 0 200`；`new` 的 `lettermod` 加每键 `require-prior-idle 150`。两者计时实现不同，需试打，不保证边界手感完全一致。
 - 原 `new.conf` 的 `[sshift]` 没有激活入口，不人为添加；Shift 叠加数字/符号层时正常修饰输出。
 

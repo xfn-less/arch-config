@@ -71,8 +71,8 @@
 )
 
 (deflayer fn
-  _        f1       f2       f3       f12               _        _        _        _        _
-  _        f4       f5       f6       f11               _        _        _        _        _
+  _        f1       f2       f3       f12               _        _        brup     _        _
+  _        f4       f5       f6       f11               _        vold     brdn     volu     _
   _        f7       f8       f9       f10               _        _        _        _        _
                     _        _        _                          _        _
 )
