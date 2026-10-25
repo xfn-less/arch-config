@@ -18,6 +18,17 @@
 - `overloadt2` 用 `tap-hold-release 0 200`；`new` 的 `lettermod` 加每键 `require-prior-idle 150`。两者计时实现不同，需试打，不保证边界手感完全一致。
 - 原 `new.conf` 的 `[sshift]` 没有激活入口，不人为添加；Shift 叠加数字/符号层时正常修饰输出。
 
+## Vial 权限（new）
+
+只给活动本地用户开放该键盘的 hidraw，不需要用 sudo 运行 Vial：
+```sh
+sudo install -m644 70-vial.rules /etc/udev/rules.d/70-vial.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger --subsystem-match=hidraw --action=add
+```
+
+重新打开 Vial；仍未识别时拔插键盘。固件需支持 Vial。
+
 ## 鼠标模式（三份均有）
 
 Win+X 进入；Enter 左击并退出，物理 Esc 退出（60/laptop 的 Caps 也退出）。其他未分配字母不输出，无中键。
