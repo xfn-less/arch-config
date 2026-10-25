@@ -103,7 +103,7 @@ cmd fzf_jump ${{
 	escaped=$(printf '%s' "$target" | sed 's/\\/\\\\/g;s/"/\\"/g')
 	lf -remote "send $id select \"$escaped\""
 }}
-map gf fzf_jump
+map <c-f> fzf_jump
 
 cmd fzf_grep ${{
 	set -f
@@ -118,7 +118,7 @@ cmd fzf_grep ${{
 }}
 map <c-g> :push :fzf_grep<space>
 
-# PKM / search (gf avoids overriding default <c-f> page-down)
+# PKM / search
 map gt :cd ~/notes
 
 cmd extract ${{
