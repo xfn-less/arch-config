@@ -43,8 +43,7 @@
 
   mouse  (multi (release-layer spacefn) (release-layer fn) (release-key lmet) (release-key rmet) (layer-switch mouse))
   normal (multi (release-key lmet) (release-key rmet) (layer-switch base))
-  winx   (fork x @mouse (lmet rmet))
-  mx     (fork XX @normal (lmet rmet))
+  zmouse (tap-hold-release 0 200 z @mouse (require-prior-idle 150))
   done   (multi mlft @normal)
   up     (movemouse-accel-up 10 650 1 12)
   down   (movemouse-accel-down 10 650 1 12)
@@ -60,7 +59,7 @@
 (deflayer base
   @tab     @wshift  e        @ralt    t                 y        @ualt    i        @oshift  @bspc
   a        s        d        f        g                 h        j        k        l        p
-  @esc     z        @winx    c        v                 b        n        m        @qfn     @enter
+  @esc     @zmouse  x        c        v                 b        n        m        @qfn     @enter
                     lctl     mlft     @space                     mrgt     rmet
 )
 
@@ -78,11 +77,12 @@
                     _        _        _                          _        _
 )
 
-;; new 没有右手平移：逻辑键就是物理键。F/D 可按住，F 拖拽；不设中键。
+;; Z 长按进入锁定鼠标模式，松开仍保持；Esc 退出，Enter 左击退出。
+;; new 逻辑键就是物理键：D 慢移、F/G 左右键，F 可拖拽；不设中键。
 ;; Tab/Backspace 作 Ctrl、W 作 Shift、R 作 Alt，保留组合点击能力。
 (deflayer mouse
   lctl     lsft     XX       lalt     XX                @whup    @whlf    @up      @whrt    lctl
-  XX       @slow    mrgt     mlft     XX                @whdn    @left    @down    @right   XX
-  @normal  XX       @mx      XX       XX                XX       XX       XX       XX       @done
+  XX       XX       @slow    mlft     mrgt              @whdn    @left    @down    @right   XX
+  @normal  XX       XX       XX       XX                XX       XX       XX       XX       @done
                     lctl     mlft     XX                         mrgt     rmet
 )

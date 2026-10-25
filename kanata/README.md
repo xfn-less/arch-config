@@ -31,9 +31,11 @@ sudo udevadm trigger --subsystem-match=hidraw --action=add
 
 ## 鼠标模式（三份均有）
 
-Win+X 进入；Enter 左击并退出，物理 Esc 退出（60/laptop 的 Caps 也退出）。其他未分配字母不输出，无中键。
+`60` / `laptop` 用 Win+X 进入；`new` 用 Z 长按进入（200ms，150ms 连打保护），轻点仍输入 z，Space+Z 仍是 7。new 不再占用 Win+X。
 
-按逻辑键：IJKL 上/左/下/右，S 按住慢移，F 左键（按住可拖拽），D 右键，U/O 水平滚动，Y/H 竖向滚动。
+鼠标模式锁定保持，松开入口键不退出；Enter 左击并退出，物理 Esc 退出（60/laptop 的 Caps 也退出）。其他未分配字母不输出，无中键。
+
+按逻辑键：IJKL 上/左/下/右，U/O 水平滚动，Y/H 竖向滚动。`new` 为 D 按住慢移、F/G 左右键；`60` / `laptop` 保持 S 慢移、F/D 左右键。左键按住均可拖拽。
 
 `new` 的逻辑键就是物理键；`60` / `laptop` 按右移后的逻辑布局，IJKL 对应物理 O/K/L/分号，U/O 对应物理 I/P，Y/H 对应物理 U/J。
 
