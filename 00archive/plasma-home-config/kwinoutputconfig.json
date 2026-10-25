@@ -1,0 +1,80 @@
+[
+    {
+        "data": [
+            {
+                "abmLevel": 0,
+                "allowDdcCi": true,
+                "allowSdrSoftwareBrightness": false,
+                "autoBrightnessCurve": [
+                    [
+                        0,
+                        1
+                    ]
+                ],
+                "autoRotation": "InTabletMode",
+                "automaticBrightness": false,
+                "brightness": 0.10999536455919041,
+                "colorPowerTradeoff": "PreferEfficiency",
+                "colorProfileSource": "sRGB",
+                "connectorName": "eDP-1",
+                "detectedDdcCi": false,
+                "edidHash": "ecd5a6d39da8e4bb875fed6f56c19229",
+                "edidIdentifier": "AUO 4007 0 0 2022 0",
+                "edrPolicy": "always",
+                "hdrColorProfileSource": "EDID",
+                "hdrIccProfilePath": "",
+                "highDynamicRange": false,
+                "iccProfilePath": "",
+                "maxBitsPerColor": 0,
+                "mode": {
+                    "cvt": {
+                        "clock": 267660,
+                        "flags": 10,
+                        "hdisplay": 2560,
+                        "hskew": 0,
+                        "hsyncEnd": 2640,
+                        "hsyncStart": 2608,
+                        "htotal": 2720,
+                        "vdisplay": 1600,
+                        "vscan": 0,
+                        "vsyncEnd": 1620,
+                        "vsyncStart": 1610,
+                        "vtotal": 1640
+                    },
+                    "flags": 1
+                },
+                "overscan": 0,
+                "rgbRange": "Automatic",
+                "scale": 1.5,
+                "sdrBrightness": 200,
+                "sdrGamutWideness": 0,
+                "sharpness": 0,
+                "transform": "Normal",
+                "uuid": "7b64c16c-5ab9-44c1-ac02-24b072e04f46",
+                "vrrPolicy": "Never",
+                "wideColorGamut": false
+            }
+        ],
+        "name": "outputs"
+    },
+    {
+        "data": [
+            {
+                "lidClosed": false,
+                "outputs": [
+                    {
+                        "enabled": true,
+                        "outputIndex": 0,
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "priority": 1,
+                        "replicationSource": ""
+                    }
+                ]
+            }
+        ],
+        "name": "setups"
+    }
+]

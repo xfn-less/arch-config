@@ -93,35 +93,32 @@ sudo pacman -Sy archlinuxcn-keyring
 sudo pacman -Su --needed paru
 ```
 
-目标：装完后尽量只靠包名复现可用桌面；自定义配置能少则少。
+目标：桌面留 **niri**（一份 `config.kdl`）；周围工具尽量只记包名、少写配置；应用慢慢换成开箱即用的替代。
 
-### 桌面（主线，开箱）
+### 桌面（主线）
 
 ```sh
 sudo pacman -S --needed \
-  plasma-desktop sddm \
-  plasma-nm plasma-pa \
-  dolphin konsole kate spectacle \
-  breeze breeze-gtk kde-gtk-config \
-  xdg-desktop-portal-kde kscreen \
+  niri fuzzel swaybg swayidle swaylock \
+  grim slurp wl-clipboard wlsunset brightnessctl \
+  alacritty firefox \
   fcitx5 fcitx5-qt fcitx5-gtk fcitx5-configtool fcitx5-rime \
   noto-fonts noto-fonts-cjk noto-fonts-emoji \
-  pipewire-pulse wireplumber
-sudo systemctl enable sddm NetworkManager
+  xdg-desktop-portal-gtk xorg-xwayland \
+  pipewire-pulse wireplumber libnotify udisks2
 ```
 
-登录选 **Plasma (Wayland)**。截图用 Spectacle，文件管理 Dolphin，终端 Konsole，编辑 Kate。
-显示缩放本机约 `1.5`（2560x1600）。输入法装上后用系统设置 / fcitx5-configtool。
+TTY 启动：`ni`（见 bash）或 `dbus-run-session niri --session`。
+配置主要只留 `niri/config.kdl`；上述依赖大多无独立配置文件。
 
 ### 仍保留、尚未替换
 
-- bash / fzf：下一步再换 shell
+- bash / fzf：后续可换更开箱的 shell
 - fcitx5 自定义 Rime、fontconfig、mihomo、msi-fan、xrdp-config：未动
-- vis / alacritty / kanata / keyd：暂留，后续归档
+- vis / alacritty / kanata / keyd / swappy：暂留，应用侧慢慢替换
 
 ### 已归档（`00archive/`）
 
-labwc / niri / nvim / emacs / lf / ghostty / bt /
-xdg-desktop-portal（niri）/ xdg-desktop-portal-termfilechooser
+labwc / nvim / emacs / lf / ghostty / bt / plasma-home-config
 
-niri 包仍可作登录回退；日常主线改为 Plasma。
+KDE/Plasma 已卸载；XFCE 也不在主线。
