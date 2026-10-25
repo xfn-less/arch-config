@@ -68,6 +68,7 @@ binds {
     Mod+escape repeat=false { spawn-sh "swaylock -f -u -c 000001 && niri msg action power-off-monitors"; }
     Mod+a repeat=false { spawn "alacritty"; }
     Mod+c repeat=false { spawn "firefox"; }
+    Mod+z repeat=false { spawn "64gram-desktop"; }
     Mod+return repeat=false { spawn "fuzzel"; }
     Mod+p repeat=false { spawn-sh "grim - | swappy -f - -o - | wl-copy -t image/png"; }
     Mod+q repeat=false { spawn-sh "grim -g \"$(slurp)\" - | swappy -f - -o - | wl-copy -t image/png"; }
