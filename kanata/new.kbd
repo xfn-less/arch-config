@@ -41,8 +41,8 @@
   lbrc   (tap-hold-release 0 200 lbrc lmet)
   rbrc   (tap-hold-release 0 200 rbrc lmet)
 
-  mouse  (multi (release-layer spacefn) (release-layer fn) (release-key lmet) (release-key rmet) (layer-switch mouse))
-  normal (multi (release-key lmet) (release-key rmet) (layer-switch base))
+  mouse  (multi (release-key lmet) (release-key rmet) (layer-while-held mouse))
+  normal (multi (release-layer mouse) (release-key lmet) (release-key rmet) (layer-switch base))
   zmouse (tap-hold-release 0 200 z @mouse (require-prior-idle 150))
   done   (multi mlft @normal)
   up     (movemouse-accel-up 10 650 1 12)
@@ -77,7 +77,7 @@
                     _        _        _                          _        _
 )
 
-;; Z 长按进入锁定鼠标模式，松开仍保持；Esc 退出，Enter 左击退出。
+;; 按住 Z 进入鼠标层，松开 Z 退出；Esc 提前退出，Enter 左击并提前退出。
 ;; new 逻辑键就是物理键：D 慢移、F/G 左右键，F 可拖拽；不设中键。
 ;; Tab/Backspace 作 Ctrl、W 作 Shift、R 作 Alt，保留组合点击能力。
 (deflayer mouse
