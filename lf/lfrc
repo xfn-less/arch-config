@@ -35,6 +35,16 @@ setlocal ~/.trash dirfirst false
 setlocal ~/.trash info size:ctime
 
 map e $vis "$f"
+# New Alacritty window: file -> vis, directory -> lf
+cmd open_new ${{
+	set -f
+	if [ -d "$f" ]; then
+		alacritty -e lf -- "$f" >/dev/null 2>&1 &
+	else
+		alacritty -e vis -- "$f" >/dev/null 2>&1 &
+	fi
+}}
+map o open_new
 map a :push %touch<space>
 map A :push %mkdir<space>
 
@@ -46,7 +56,7 @@ cmd trash ${{
 		name=$(basename -- "$path")
 		stamp=$(date +%Y%m%d-%H%M%S-%N)
 		stem=$name
-		ext=
+	ext=
 		if [ ! -d "$path" ]; then
 			case $name in
 			*.tar.gz|*.tar.bz2|*.tar.xz) ext=.tar.${name##*.}; stem=${name%"$ext"} ;;
@@ -99,14 +109,17 @@ cmd fzf_grep ${{
 	set -f
 	pattern=$1
 	[ -n "$pattern" ] || exit 0
-	target=$(grep -RIl --exclude-dir=.git -- "$pattern" . 2>/dev/null | fzf \
-		--preview "grep -n --color=always -- \"$pattern\" {} 2>/dev/null | head -100") || exit 0
+	target=$(rg -l --hidden --glob '!.git' -- "$pattern" . 2>/dev/null | fzf \
+		--preview "rg -n --color=always -- \"$pattern\" {} 2>/dev/null | head -100") || exit 0
 	[ -n "$target" ] || exit 0
 	target=$(realpath -- "$target")
 	escaped=$(printf '%s' "$target" | sed 's/\\/\\\\/g;s/"/\\"/g')
 	lf -remote "send $id select \"$escaped\""
 }}
 map <c-g> :push :fzf_grep<space>
+
+# PKM: jump to notes tree
+map gt :cd ~/notes
 
 cmd extract ${{
 	set -f
