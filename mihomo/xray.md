@@ -1,9 +1,9 @@
 # Xray 两条线路
 
 ```text
-香港：客户端 -> 103.146.230.179:8443 -> 香港出口
-国内：客户端 -> 103.146.230.179:9443 -> 183.56.236.235:443 -> 国内出口
-网站：         103.146.230.179:443
+香港：客户端 -> 47.239.97.156:8443 -> 香港出口
+国内：客户端 -> 47.239.97.156:9443 -> 183.56.236.235:443 -> 国内出口
+网站：         47.239.97.156:443
 ```
 
 只备份两个文件：
@@ -68,7 +68,7 @@
 
 ## 香港服务器
 
-- SSH：`ssh -p 40296 xfn@103.146.230.179`
+- SSH：`ssh xfn@47.239.97.156`
 - `443` 留给网站
 - `8443`：香港 Xray
 - `9443`：转发到国内 `183.56.236.235:443`
@@ -129,12 +129,12 @@ sudo systemctl enable --now xray-relay.socket
 sudo ss -lntp | grep -E ':(8443|9443)\b'
 ```
 
-服务商防火墙开放 TCP `40296`、`443`、`8443`、`9443`。
+服务商防火墙开放 TCP `22`、`443`、`8443`、`9443`、`33890`。
 
 ## 国内服务器
 
 - SSH：`ssh root@183.56.236.235`
-- `443`：国内 Xray，只允许来源 `103.146.230.179/32`
+- `443`：国内 Xray，只允许来源 `47.239.97.156/32`
 - 配置：`/usr/local/etc/xray/config.json`
 
 国内下载 GitHub 较慢：在本机通过 Mihomo 下载并校验，再 SCP 过去，不需要经过香港服务器。
@@ -199,8 +199,8 @@ sudo systemctl disable --now mihomo  # 停止并取消开机自启
 - 手机：`~/arch-work/xray-config/mihomo-mobile.yaml`
 
 ```text
-香港节点：103.146.230.179:8443，使用香港凭据
-国内节点：103.146.230.179:9443，使用国内凭据
+香港节点：47.239.97.156:8443，使用香港凭据
+国内节点：47.239.97.156:9443，使用国内凭据
 ```
 
 验证：
@@ -209,7 +209,7 @@ sudo systemctl disable --now mihomo  # 停止并取消开机自启
 sudo mihomo -t -d /var/lib/mihomo -f ~/arch-work/xray-config/mihomo-config.yaml
 sudo systemctl restart mihomo
 mihomoctl use global hk
-curl -4 https://icanhazip.com    # 应为 103.146.230.179
+curl -4 https://icanhazip.com    # 应为 47.239.97.156
 mihomoctl use global cn
 curl -4 https://icanhazip.com    # 应为 183.56.236.235
 mihomoctl use global hk
@@ -219,7 +219,7 @@ mihomoctl use rule split
 ## 更换国内服务器
 
 1. 备份本机和手机 Mihomo。
-2. 新国内机按上文安装 Xray，生成新 UUID / X25519 / short ID，写入 `443` 配置；防火墙只放行香港 `103.146.230.179/32` 访问 `443`。
+2. 新国内机按上文安装 Xray，生成新 UUID / X25519 / short ID，写入 `443` 配置；防火墙只放行香港 `47.239.97.156/32` 访问 `443`。
 3. 香港把 `xray-relay.service` 的目标改成新国内 IP，然后：
    ```sh
    sudo systemctl daemon-reload

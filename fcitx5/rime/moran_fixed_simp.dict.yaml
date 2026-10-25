@@ -21,8 +21,6 @@ encoder:
       formula: "AaBaCa"
     - length_in_range: [4, 32]
       formula: "AaBaCaZa"
-import_tables:
-  - moran_fixed.symbols
 ...
 
 #----------词库----------#

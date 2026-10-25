@@ -118,9 +118,6 @@ cmd fzf_grep ${{
 }}
 map <c-g> :push :fzf_grep<space>
 
-# PKM / search
-map <c-k> :cd ~/notes
-
 cmd extract ${{
 	set -f
 	case $f in

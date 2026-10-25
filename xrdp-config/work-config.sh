@@ -1,7 +1,7 @@
 #!/bin/bash
-# Debian12：xrdp+TG+sakura+Firefox+fcitx5；公网 40296/443/8443/9443/33890
+# Debian12：xrdp+TG+sakura+Firefox+fcitx5；公网 22/443/8443/9443/33890
 # RDP：ip:33890（无需 SSH 隧道）
-# SSH：ssh -p 40296 xfn@103.146.230.179
+# SSH：ssh xfn@47.239.97.156
 # 会话：~/.xsession（fcitx5 + TG + sakura + tint2 + openbox）
 # 输入法：自然码 zrm（词库 fcitx5-chinese-addons/libime；用户词 ~/.local/share/fcitx5/table/zrm.*）
 #
@@ -17,7 +17,7 @@
 #   先关掉 GAS 全部触发器，装的时候会 deleteWebhook
 
 sudo apt-get update
-sudo apt-get install --no-install-recommends \
+sudo apt-get install -y --no-install-recommends \
   xrdp xorgxrdp openbox sakura tint2 dbus-x11 fonts-wqy-microhei telegram-desktop \
   firefox-esr \
   fcitx5 fcitx5-chinese-addons fcitx5-frontend-gtk3 fcitx5-frontend-qt5

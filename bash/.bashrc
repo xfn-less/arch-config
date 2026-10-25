@@ -1,3 +1,18 @@
+export GOPATH="$HOME/.local/share/go"
+case ":$PATH:" in
+	*":$HOME/.local/bin:"*) ;;
+	*) PATH="$HOME/.local/bin:$PATH" ;;
+esac
+case ":$PATH:" in
+	*":$GOPATH/bin:"*) ;;
+	*) PATH="$GOPATH/bin:$PATH" ;;
+esac
+case ":$PATH:" in
+	*":$HOME/.local/share/npm/bin:"*) ;;
+	*) PATH="$HOME/.local/share/npm/bin:$PATH" ;;
+esac
+export PATH
+
 [[ $- == *i* ]] || return
 
 PS1='\[\e[1m\]\A \W\$ \[\e[0m\]'
@@ -113,10 +128,15 @@ paco() {
 		xargs -r -o sudo pacman -Rns --
 }
 
-lfcd() {
-	cd "$(command lf -print-last-dir "$@")" || return
+y() {
+	local tmp cwd
+	tmp=$(mktemp -t yazi-cwd.XXXXXX) || return
+	command yazi "$@" --cwd-file="$tmp"
+	if cwd=$(<"$tmp") && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd" || return
+	fi
+	rm -f -- "$tmp"
 }
-alias lf=lfcd
 
 ni() {
 	if [[ -n ${WAYLAND_DISPLAY:-} || -n ${DISPLAY:-} ]]; then
@@ -128,6 +148,18 @@ ni() {
 	XDG_CURRENT_DESKTOP=niri XDG_SESSION_TYPE=wayland \
 		GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx \
 		dbus-run-session niri --session
+}
+
+kde() {
+	if [[ -n ${WAYLAND_DISPLAY:-} || -n ${DISPLAY:-} ]]; then
+		echo "请先退出当前图形会话，再从 TTY 运行 kde。" >&2
+		return 1
+	fi
+	export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg-runtime-$UID}"
+	install -d -m 700 "$XDG_RUNTIME_DIR" || return
+	XDG_CURRENT_DESKTOP=KDE XDG_SESSION_TYPE=wayland \
+		GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx \
+		dbus-run-session startplasma-wayland
 }
 
 HISTSIZE=100000
