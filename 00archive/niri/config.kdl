@@ -62,7 +62,6 @@ spawn-at-startup "swayidle" "-w" \
 spawn-at-startup "swaybg" "-i" "/home/xfn/.config/niri/bg.jpg" "-m" "fill"
 spawn-at-startup "fcitx5"
 spawn-at-startup "alacritty"
-spawn-at-startup "dbar"
 spawn-at-startup "wlsunset" "-l" "20" "-L" "100"
 
 binds {

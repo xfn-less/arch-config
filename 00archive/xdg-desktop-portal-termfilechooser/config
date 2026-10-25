@@ -1,5 +1,5 @@
 [filechooser]
-cmd=lf-wrapper.sh
+cmd=yazi-wrapper.sh
 default_dir=$HOME
 env=TERMCMD=alacritty --title termfilechooser -e
 open_mode=suggested

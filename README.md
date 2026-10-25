@@ -93,45 +93,35 @@ sudo pacman -Sy archlinuxcn-keyring
 sudo pacman -Su --needed paru
 ```
 
-按需选择，配置目录彼此独立。
+目标：装完后尽量只靠包名复现可用桌面；自定义配置能少则少。
 
-- bash：bash-completion fzf fastfetch chafa
-- fontconfig：ttf-inconsolata wqy-microhei
-- niri：niri fuzzel swaybg swaylock swayidle wlsunset
-- alacritty：alacritty
-- dbar：dbar-bin
-- fcitx5：fcitx5-rime
-- lf：lf
-- portal：xdg-desktop-portal-termfilechooser xdg-desktop-portal-gtk
-- GTK 默认主题：gnome-themes-extra
-- vis：vis-lexers
-- keyd：keyd
-- mihomo：mihomo
-- msi-fan：见 `msi-fan/install.sh`
-- xrdp-config：见 `xrdp-config/work-config.sh`
-- waydroid：waydroid（测安卓套壳用；zen 已带 rust binder）
-- 格式化：prettier stylua shfmt ruff go
-- 音频：pipewire-pulse wireplumber pavucontrol
-- 电源：power-profiles-daemon python-gobject
+### 桌面（主线，开箱）
 
-归档配置见 `00archive/`（labwc / nvim / emacs 等）。
-
-Vis 打开方式：
 ```sh
-install -Dm644 vis/vis.desktop ~/.local/share/applications/vis.desktop
-update-desktop-database ~/.local/share/applications
-xdg-mime default vis.desktop text/plain
+sudo pacman -S --needed \
+  plasma-desktop sddm \
+  plasma-nm plasma-pa \
+  dolphin konsole kate spectacle \
+  breeze breeze-gtk kde-gtk-config \
+  xdg-desktop-portal-kde kscreen \
+  fcitx5 fcitx5-qt fcitx5-gtk fcitx5-configtool fcitx5-rime \
+  noto-fonts noto-fonts-cjk noto-fonts-emoji \
+  pipewire-pulse wireplumber
+sudo systemctl enable sddm NetworkManager
 ```
 
-Rime（本机 schema 为 `moran_fixed`，词库仍用 `moran_fixed_simp`）：
-```sh
-install -Dm644 fcitx5/rime/* ~/.local/share/fcitx5/rime/
-```
+登录选 **Plasma (Wayland)**。截图用 Spectacle，文件管理 Dolphin，终端 Konsole，编辑 Kate。
+显示缩放本机约 `1.5`（2560x1600）。输入法装上后用系统设置 / fcitx5-configtool。
 
-dbar 亮度滚轮（首次设置后重新登录）：
-```sh
-sudo install -Dm644 dbar/90-backlight.rules /etc/udev/rules.d/90-backlight.rules
-sudo usermod -aG video "$USER"
-sudo udevadm control --reload-rules
-sudo udevadm trigger --subsystem-match=backlight --action=add
-```
+### 仍保留、尚未替换
+
+- bash / fzf：下一步再换 shell
+- fcitx5 自定义 Rime、fontconfig、mihomo、msi-fan、xrdp-config：未动
+- vis / alacritty / kanata / keyd：暂留，后续归档
+
+### 已归档（`00archive/`）
+
+labwc / niri / nvim / emacs / lf / ghostty / bt /
+xdg-desktop-portal（niri）/ xdg-desktop-portal-termfilechooser
+
+niri 包仍可作登录回退；日常主线改为 Plasma。
