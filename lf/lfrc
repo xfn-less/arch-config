@@ -55,7 +55,7 @@ cmd trash ${{
 	for path in $fx; do
 		name=$(basename -- "$path")
 		stamp=$(date +%Y%m%d-%H%M%S-%N)
-			stem=$name
+		stem=$name
 		ext=
 		if [ ! -d "$path" ]; then
 			case $name in
