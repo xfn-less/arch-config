@@ -101,7 +101,7 @@ sudo pacman -Su --needed paru
 sudo pacman -S --needed \
   niri fuzzel swaybg swayidle swaylock \
   grim slurp wl-clipboard wlsunset brightnessctl \
-  alacritty firefox \
+  alacritty firefox lf \
   fcitx5 fcitx5-qt fcitx5-gtk fcitx5-configtool fcitx5-rime \
   noto-fonts noto-fonts-cjk noto-fonts-emoji \
   xdg-desktop-portal-gtk xorg-xwayland \
@@ -109,16 +109,16 @@ sudo pacman -S --needed \
 ```
 
 TTY 启动：`ni`（见 bash）或 `dbus-run-session niri --session`。
-配置主要只留 `niri/config.kdl`；上述依赖大多无独立配置文件。
+配置主要只留 `niri/config.kdl`；lf 配置见 `lf/`。
 
 ### 仍保留、尚未替换
 
 - bash / fzf：后续可换更开箱的 shell
 - fcitx5 自定义 Rime、fontconfig、mihomo、msi-fan、xrdp-config：未动
-- vis / alacritty / kanata / keyd / swappy：暂留，应用侧慢慢替换
+- vis / alacritty / keyd / swappy：暂留
 
 ### 已归档（`00archive/`）
 
-labwc / nvim / emacs / lf / ghostty / bt / plasma-home-config
+labwc / nvim / emacs / ghostty / bt / plasma-home-config
 
 KDE/Plasma 已卸载；XFCE 也不在主线。
