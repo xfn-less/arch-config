@@ -1,41 +1,74 @@
--- 手动格式化：普通模式按 =，需要对应 formatter 已安装。
+-- 手动格式化：普通模式按 =。
+-- 泛前端（JS/TS/React + JSON/CSS/HTML/MD/YAML 等）用 biome；不含 Vue/Svelte/Astro。
+-- Go 用 gofmt。
 local vis = vis
 local shquote = require("my.util").shquote
 
-local prettier_syntax = {}
-for syntax in ("css html javascript json jsx markdown tsx typescript yaml"):gmatch("%S+") do
-	prettier_syntax[syntax] = true
+local syntax_ext = {
+	javascript = ".js",
+	typescript = ".ts",
+	json = ".json",
+	css = ".css",
+	sass = ".scss",
+	html = ".html",
+	markdown = ".md",
+	yaml = ".yaml",
+}
+
+local frontend_ext = {
+	[".js"] = true,
+	[".mjs"] = true,
+	[".cjs"] = true,
+	[".jsx"] = true,
+	[".ts"] = true,
+	[".mts"] = true,
+	[".cts"] = true,
+	[".tsx"] = true,
+	[".json"] = true,
+	[".jsonc"] = true,
+	[".css"] = true,
+	[".scss"] = true,
+	[".html"] = true,
+	[".htm"] = true,
+	[".md"] = true,
+	[".mdx"] = true,
+	[".yaml"] = true,
+	[".yml"] = true,
+	[".graphql"] = true,
+	[".gql"] = true,
+}
+
+local function path_ext(path)
+	return path:match("%.[^./]+$") or ""
 end
 
-local function with_path(win, option)
+local function biome_path(win)
 	local path = win.file and win.file.path
-	if not path or path == "" then
-		return ""
+	if path and path ~= "" then
+		local ext = path_ext(path):lower()
+		if frontend_ext[ext] then
+			return path
+		end
 	end
-	return option .. shquote(path)
+
+	local ext = syntax_ext[win.syntax or ""]
+	if not ext then
+		return nil
+	end
+	return (path and path ~= "") and path or ("untitled" .. ext)
 end
 
--- 按文件类型选择外部格式化程序。
 local function default_command(win)
-	local syntax = win.syntax or ""
-
-	if prettier_syntax[syntax] then
-		return "prettier" .. with_path(win, " --stdin-filepath ")
-	end
-	if syntax == "lua" then
-		return "stylua -"
-	end
-	if syntax == "bash" or syntax == "sh" then
-		return "shfmt" .. with_path(win, " --filename ") .. " -"
-	end
-	if syntax == "python" then
-		return "ruff format" .. with_path(win, " --stdin-filename ") .. " -"
-	end
-	if syntax == "go" then
+	if (win.syntax or "") == "go" then
 		return "gofmt"
 	end
 
-	return nil
+	local path = biome_path(win)
+	if not path then
+		return nil
+	end
+	-- HTML 默认关闭，需显式打开（不含 Vue/Svelte/Astro 扩展名则不会误伤）
+	return "biome format --html-formatter-enabled=true --stdin-file-path " .. shquote(path)
 end
 
 -- 仅格式化当前文件，不自动保存；失败时保留原文。

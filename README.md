@@ -15,7 +15,7 @@ mount --mkdir /dev/nvme0n1p1 /mnt/boot
 默认内核用 `linux-zen`；需要时可额外装 `linux` 作回退。
 
 ```sh
-pacstrap -K /mnt base base-devel linux-zen mkinitcpio linux-firmware-intel intel-ucode intel-media-driver sof-firmware networkmanager vis-lexers
+pacstrap -K /mnt base base-devel linux-zen linux-firmware-intel intel-ucode intel-media-driver sof-firmware networkmanager vis-lexers
 genfstab -U /mnt > /mnt/etc/fstab
 arch-chroot /mnt
 ```
@@ -102,10 +102,7 @@ sudo pacman -S --needed \
   niri fuzzel swaybg swayidle swaylock \
   grim slurp wl-clipboard wlsunset brightnessctl \
   alacritty firefox lf \
-  fcitx5 fcitx5-qt fcitx5-gtk fcitx5-configtool fcitx5-rime \
-  noto-fonts noto-fonts-cjk noto-fonts-emoji \
-  xdg-desktop-portal-gtk xorg-xwayland \
-  pipewire-pulse wireplumber libnotify udisks2
+  fcitx5 fcitx5-rime \
 ```
 
 TTY 启动：`ni`（见 bash）或 `dbus-run-session niri --session`。
