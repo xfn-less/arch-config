@@ -102,11 +102,23 @@ sudo pacman -S --needed \
   niri fuzzel swaybg swayidle swaylock \
   grim slurp wl-clipboard wlsunset brightnessctl \
   alacritty firefox lf \
+  swayimg zathura zathura-pdf-poppler mpv \
+  dbar-bin ttf-nerd-fonts-symbols \
   fcitx5 fcitx5-rime \
 ```
 
 TTY 启动：`ni`（见 bash）或 `dbus-run-session niri --session`。
-配置主要只留 `niri/config.kdl`；lf 配置见 `lf/`。
+配置主要只留 `niri/config.kdl`；lf 见 `lf/`；默认打开方式见 `mime/mimeapps.list`。
+
+浏览器「打开所在文件夹」需要 FileManager1（lf 本身没有）：
+```sh
+install -Dm755 lf/lf-filemanager1 ~/.local/bin/lf-filemanager1
+install -Dm644 lf/org.freedesktop.FileManager1.service ~/.local/share/dbus-1/services/org.freedesktop.FileManager1.service
+install -Dm644 lf/lf-filemanager1.service ~/.config/systemd/user/lf-filemanager1.service
+install -Dm644 lf/lf.desktop ~/.local/share/applications/lf.desktop
+install -Dm644 mime/mimeapps.list ~/.config/mimeapps.list
+systemctl --user enable --now lf-filemanager1.service
+```
 
 ### 仍保留、尚未替换
 

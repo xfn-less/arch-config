@@ -18,11 +18,12 @@ local function define_styles()
 		return mode_styles
 	end
 
+	-- 色调跟 base16-gruvbox-dark-hard（base00 字 + 各模式强调底）
 	mode_styles = {
-		normal = assert(vis.ui:style_push("fore:#222222,back:#d8d8d8,bold")),
-		insert = assert(vis.ui:style_push("fore:#222222,back:#b8e6b8,bold")),
-		visual = assert(vis.ui:style_push("fore:#222222,back:#efb1a6,bold")),
-		replace = assert(vis.ui:style_push("fore:#222222,back:#f0df9a,bold")),
+		normal = assert(vis.ui:style_push("fore:#1d2021,back:#83a598,bold")),
+		insert = assert(vis.ui:style_push("fore:#1d2021,back:#b8bb26,bold")),
+		visual = assert(vis.ui:style_push("fore:#1d2021,back:#d3869b,bold")),
+		replace = assert(vis.ui:style_push("fore:#1d2021,back:#fb4934,bold")),
 	}
 
 	return mode_styles

@@ -4,7 +4,7 @@ local vis = vis
 
 -- 基本设置与系统剪贴板。布尔值切换保持停用，旧实现见归档。
 vis.events.subscribe(vis.events.INIT, function()
-	vis:command("set theme mytheme-dark")
+	vis:command("set theme base16-gruvbox-dark-hard")
 	for _, mode in ipairs({ vis.modes.NORMAL, vis.modes.VISUAL }) do
 		vis:map(mode, " y", "<vis-register>+<vis-operator-yank>", "yank to system clipboard")
 		vis:map(mode, " p", "<vis-register>+<vis-put-after>", "paste from system clipboard")

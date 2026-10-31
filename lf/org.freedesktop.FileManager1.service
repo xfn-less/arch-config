@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.freedesktop.FileManager1
+Exec=/home/xfn/.local/bin/lf-filemanager1
+SystemdService=lf-filemanager1.service

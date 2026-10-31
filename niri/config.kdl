@@ -53,14 +53,33 @@ output "eDP-1" {
 prefer-no-csd
 hotkey-overlay { skip-at-startup; }
 window-rule { open-floating false; }
+window-rule {
+    match is-focused=true
+    opacity 0.95
+}
+window-rule {
+    match is-focused=false
+    opacity 0.8
+}
 animations { off; }
 recent-windows { off; }
-
+gestures {
+    hot-corners {
+        off
+    }
+}
+overview {
+    zoom 0.75
+    workspace-shadow {
+        off
+    }
+}
 spawn-at-startup "swayidle" "-w" \
     "timeout" "182" "swaylock -u -f -c 000000" \
     "timeout" "240" "niri msg action power-off-monitors"
 spawn-at-startup "swaybg" "-i" "/home/xfn/.config/niri/bg.jpg" "-m" "fill"
 spawn-at-startup "fcitx5"
+spawn-at-startup "dbar"
 spawn-at-startup "alacritty"
 spawn-at-startup "wlsunset" "-l" "20" "-L" "100"
 
@@ -70,6 +89,7 @@ binds {
     Mod+c repeat=false { spawn "firefox"; }
     Mod+z repeat=false { spawn "64gram-desktop"; }
     Mod+return repeat=false { spawn "fuzzel"; }
+    Mod+b repeat=false { spawn-sh "s=$(gsettings get org.gnome.desktop.interface color-scheme); if echo \"$s\" | grep -q prefer-dark; then gsettings set org.gnome.desktop.interface color-scheme prefer-light; gsettings set org.gnome.desktop.interface gtk-theme Adwaita; else gsettings set org.gnome.desktop.interface color-scheme prefer-dark; gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark; fi"; }
     Mod+p repeat=false { spawn-sh "grim - | swappy -f - -o - | wl-copy -t image/png"; }
     Mod+q repeat=false { spawn-sh "grim -g \"$(slurp)\" - | swappy -f - -o - | wl-copy -t image/png"; }
     Mod+r repeat=false { switch-preset-column-width; }

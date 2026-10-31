@@ -1,0 +1,10 @@
+[Unit]
+Description=lf as org.freedesktop.FileManager1
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/lf-filemanager1
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

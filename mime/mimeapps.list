@@ -1,0 +1,72 @@
+[Default Applications]
+# browser
+text/html=firefox.desktop
+application/xhtml+xml=firefox.desktop
+application/x-extension-htm=firefox.desktop
+application/x-extension-html=firefox.desktop
+application/x-extension-shtml=firefox.desktop
+application/x-extension-xhtml=firefox.desktop
+application/x-extension-xht=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+
+# files / editor
+inode/directory=lf.desktop
+text/plain=vis.desktop
+text/markdown=vis.desktop
+text/x-markdown=vis.desktop
+text/css=vis.desktop
+text/x-csrc=vis.desktop
+text/x-c++src=vis.desktop
+text/x-python=vis.desktop
+text/x-shellscript=vis.desktop
+application/json=vis.desktop
+application/javascript=vis.desktop
+application/x-javascript=vis.desktop
+application/xml=vis.desktop
+text/xml=vis.desktop
+text/x-log=vis.desktop
+
+# images → swayimg（抢在 chrome / zathura 插件前面）
+image/png=swayimg.desktop
+image/jpeg=swayimg.desktop
+image/jpg=swayimg.desktop
+image/gif=swayimg.desktop
+image/webp=swayimg.desktop
+image/bmp=swayimg.desktop
+image/tiff=swayimg.desktop
+image/svg+xml=swayimg.desktop
+image/avif=swayimg.desktop
+image/heif=swayimg.desktop
+image/jxl=swayimg.desktop
+image/x-xpixmap=swayimg.desktop
+image/x-tga=swayimg.desktop
+image/x-portable-pixmap=swayimg.desktop
+image/x-portable-graymap=swayimg.desktop
+image/x-portable-bitmap=swayimg.desktop
+
+# documents → zathura (poppler)
+application/pdf=org.pwmt.zathura-pdf-poppler.desktop
+
+# media → mpv
+audio/mpeg=mpv.desktop
+audio/mp4=mpv.desktop
+audio/x-m4a=mpv.desktop
+audio/flac=mpv.desktop
+audio/ogg=mpv.desktop
+audio/x-wav=mpv.desktop
+audio/wav=mpv.desktop
+audio/webm=mpv.desktop
+audio/x-ms-wma=mpv.desktop
+video/mp4=mpv.desktop
+video/webm=mpv.desktop
+video/x-matroska=mpv.desktop
+video/quicktime=mpv.desktop
+video/x-msvideo=mpv.desktop
+video/x-ms-wmv=mpv.desktop
+video/mpeg=mpv.desktop
+video/ogg=mpv.desktop
+application/ogg=mpv.desktop
+application/x-matroska=mpv.desktop

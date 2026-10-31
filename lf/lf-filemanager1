@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""org.freedesktop.FileManager1 → alacritty -e lf（浏览器「打开所在文件夹」）"""
+from __future__ import annotations
+
+import os
+import subprocess
+import urllib.parse
+from pathlib import Path
+
+import dbus
+import dbus.service
+from dbus.mainloop.glib import DBusGMainLoop
+from gi.repository import GLib
+
+BUS_NAME = "org.freedesktop.FileManager1"
+OBJECT_PATH = "/org/freedesktop/FileManager1"
+IFACE = "org.freedesktop.FileManager1"
+
+
+def uri_to_path(uri: str) -> Path:
+    raw = str(uri)
+    if raw.startswith("file://"):
+        return Path(urllib.parse.unquote(raw[len("file://") :]))
+    return Path(urllib.parse.unquote(raw))
+
+
+def open_in_lf(path: Path) -> None:
+    # lf：若参数是文件，会打开所在目录并选中该文件
+    target = str(path)
+    env = os.environ.copy()
+    subprocess.Popen(
+        ["alacritty", "--class", "lf", "-e", "lf", target],
+        start_new_session=True,
+        env=env,
+    )
+
+
+class FileManager(dbus.service.Object):
+    def __init__(self, bus: dbus.Bus) -> None:
+        super().__init__(bus, OBJECT_PATH)
+
+    @dbus.service.method(IFACE, in_signature="ass", out_signature="")
+    def ShowFolders(self, uris, _startup_id) -> None:
+        for uri in uris:
+            path = uri_to_path(uri)
+            open_in_lf(path if path.is_dir() else path.parent)
+
+    @dbus.service.method(IFACE, in_signature="ass", out_signature="")
+    def ShowItems(self, uris, _startup_id) -> None:
+        for uri in uris:
+            open_in_lf(uri_to_path(uri))
+
+    @dbus.service.method(IFACE, in_signature="ass", out_signature="")
+    def ShowItemProperties(self, uris, startup_id) -> None:
+        self.ShowItems(uris, startup_id)
+
+
+def main() -> None:
+    DBusGMainLoop(set_as_default=True)
+    bus = dbus.SessionBus()
+    FileManager(bus)
+    # 必须保住 BusName 引用，否则 GC 会释放总线名
+    _name = dbus.service.BusName(
+        BUS_NAME,
+        bus,
+        allow_replacement=True,
+        replace_existing=True,
+        do_not_queue=True,
+    )
+    GLib.MainLoop().run()
+
+
+if __name__ == "__main__":
+    main()

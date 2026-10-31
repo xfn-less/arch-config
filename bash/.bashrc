@@ -7,10 +7,6 @@ case ":$PATH:" in
 	*":$GOPATH/bin:"*) ;;
 	*) PATH="$GOPATH/bin:$PATH" ;;
 esac
-case ":$PATH:" in
-	*":$HOME/.local/share/npm/bin:"*) ;;
-	*) PATH="$HOME/.local/share/npm/bin:$PATH" ;;
-esac
 export PATH
 
 [[ $- == *i* ]] || return
