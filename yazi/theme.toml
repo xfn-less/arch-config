@@ -1,0 +1,7 @@
+# 藏三栏竖线
+[mgr]
+border_symbol = " "
+
+# 圆角  在终端里常拼不齐（一像素缝）；改成实心块更完整
+[indicator]
+padding = { open = "▐", close = "▌" }

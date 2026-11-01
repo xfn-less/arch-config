@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Yazi
+GenericName=File Manager
+Comment=Browse files in yazi
+Exec=env -u NIRI_SOCKET alacritty --class yazi -e yazi %F
+Icon=yazi
+Terminal=false
+Categories=System;FileTools;FileManager;
+MimeType=inode/directory;
+StartupNotify=false
+NoDisplay=true

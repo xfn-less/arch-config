@@ -94,6 +94,7 @@ binds {
     Mod+q repeat=false { spawn-sh "grim -g \"$(slurp)\" - | swappy -f - -o - | wl-copy -t image/png"; }
     Mod+r repeat=false { switch-preset-column-width; }
     Mod+v repeat=false { toggle-overview; }
+    Mod+w repeat=false { toggle-window-rule-opacity; }
     Mod+alt+q repeat=false { close-window; }
 
     Mod+s cooldown-ms=70 { focus-column-left; }

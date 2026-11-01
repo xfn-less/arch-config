@@ -1,0 +1,10 @@
+[Unit]
+Description=yazi as org.freedesktop.FileManager1
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/yazi-filemanager1
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

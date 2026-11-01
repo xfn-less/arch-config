@@ -124,43 +124,22 @@ paco() {
 		xargs -r -o sudo pacman -Rns --
 }
 
-y() {
+d() {
 	local tmp cwd
 	tmp=$(mktemp -t yazi-cwd.XXXXXX) || return
-	command yazi "$@" --cwd-file="$tmp"
+	# alacritty 无图协议；清 NIRI_SOCKET，让内置预览走 Chafa（带缩图缓存）
+	(unset NIRI_SOCKET; command yazi "$@" --cwd-file="$tmp")
 	if cwd=$(<"$tmp") && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
 		builtin cd -- "$cwd" || return
 	fi
 	rm -f -- "$tmp"
 }
 
-ni() {
-	if [[ -n ${WAYLAND_DISPLAY:-} || -n ${DISPLAY:-} ]]; then
-		echo "请先退出当前图形会话，再从 TTY 运行 ni。" >&2
-		return 1
-	fi
-	export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg-runtime-$UID}"
-	install -d -m 700 "$XDG_RUNTIME_DIR" || return
-	XDG_CURRENT_DESKTOP=niri XDG_SESSION_TYPE=wayland \
-		GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx \
-		dbus-run-session niri --session
-}
-
-kde() {
-	if [[ -n ${WAYLAND_DISPLAY:-} || -n ${DISPLAY:-} ]]; then
-		echo "请先退出当前图形会话，再从 TTY 运行 kde。" >&2
-		return 1
-	fi
-	export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/xdg-runtime-$UID}"
-	install -d -m 700 "$XDG_RUNTIME_DIR" || return
-	XDG_CURRENT_DESKTOP=KDE XDG_SESSION_TYPE=wayland \
-		GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx \
-		dbus-run-session startplasma-wayland
-}
-
 HISTSIZE=100000
 HISTFILESIZE=200000
-HISTCONTROL=ignoreboth:erasedups
+# erasedups: 写入时清掉历史里同命令；不要 ignorespace，行首空格也会记
+HISTCONTROL=erasedups
 shopt -s histappend lithist
+PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
 
 fastfetch

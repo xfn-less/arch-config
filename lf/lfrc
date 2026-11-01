@@ -22,11 +22,17 @@ nmap <esc> :unselect; clear; setfilter
 vmap <esc> :visual-discard; unselect; clear; setfilter
 cmap <esc> :cmd-escape; unselect; clear; setfilter
 
-# Keep download folders ordered with the newest files first.
-setlocal ~/Downloads sortby time
-setlocal ~/Downloads reverse
-setlocal "~/Downloads/Telegram Desktop" sortby time
-setlocal "~/Downloads/Telegram Desktop" reverse
+# Downloads 及其子目录：按修改时间，新的在前（setlocal 只匹配精确路径，故用 on-cd）
+cmd on-cd &{{
+	case $PWD in
+	"$HOME/Downloads"|"$HOME/Downloads"/*)
+		lf -remote "send $id :set sortby time; set reverse"
+		;;
+	*)
+		lf -remote "send $id :set sortby natural; set noreverse"
+		;;
+	esac
+}}
 
 # Rename updates ctime without changing the file's original modification time.
 setlocal ~/.trash sortby ctime
@@ -39,12 +45,18 @@ map e $vis "$f"
 cmd open_new ${{
 	set -f
 	if [ -d "$f" ]; then
-		alacritty -e lf -- "$f" >/dev/null 2>&1 &
+		alacritty --class lf -e lf -- "$f" >/dev/null 2>&1 &
 	else
 		alacritty -e vis -- "$f" >/dev/null 2>&1 &
 	fi
 }}
 map <enter> open_new
+
+# 在当前目录再开一个 lf 窗口（多栏搬运：这边 yank，那边 paste）
+cmd new_lf ${{
+	alacritty --class lf -e lf -- "$PWD" >/dev/null 2>&1 &
+}}
+map o new_lf
 map a :push %touch<space>
 map A :push %mkdir<space>
 

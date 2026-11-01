@@ -1,0 +1,11 @@
+# Esc 直接退出输入框（不要先进 vi 模式）
+[[input.prepend_keymap]]
+on = "<Esc>"
+run = "close"
+desc = "Cancel input"
+
+# Esc：取消选择/搜索等，并清掉 y/x 剪贴板（更接近「复位」）
+[[mgr.prepend_keymap]]
+on = "<Esc>"
+run = [ "unyank", "escape" ]
+desc = "Cancel visual/selection/search and clear yank"

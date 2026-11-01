@@ -13,7 +13,7 @@ x-scheme-handler/about=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
 
 # files / editor
-inode/directory=lf.desktop
+inode/directory=yazi.desktop
 text/plain=vis.desktop
 text/markdown=vis.desktop
 text/x-markdown=vis.desktop
