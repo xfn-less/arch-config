@@ -120,6 +120,7 @@ install -Dm644 mime/mimeapps.list ~/.config/mimeapps.list
 systemctl --user enable --now yazi-filemanager1.service
 ```
 
+systemctl --user enable --now ssh-agent.socket
 
 ### 仍保留、尚未替换
 

@@ -142,4 +142,7 @@ HISTCONTROL=erasedups
 shopt -s histappend lithist
 PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
 
+# OpenSSH agent (systemd --user ssh-agent.socket)
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+
 fastfetch
