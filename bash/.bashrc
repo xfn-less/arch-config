@@ -55,10 +55,8 @@ pacs() {
 }
 
 parus() {
-	{
-		paru -Sl
-		paru -Sla
-	} |
+	# paru -Sl 已含 aur；不要再拼 -Sla，否则 AUR 整表翻倍
+	paru -Sl |
 		awk '{
 			r = $1
 			if (r == "core") r = "co"
