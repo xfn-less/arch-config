@@ -118,7 +118,7 @@ systemctl --user enable --now ssh-agent.socket
 
 ### 仍保留、尚未替换
 
-- bash / fzf：`pacs`（co/ex/cn）/`parus`（全仓库+aur，已装`*`）/`pacr`/`paca`；`paco` 直接清孤儿
+- bash / fzf：`pacs`（co/ex/ml/cn）/`parus`（全仓库+aur，已装`*`）/`pacr`/`paca`；`paco` 直接清孤儿
 - fcitx5 自定义 Rime、fontconfig、mihomo、msi-fan、xrdp-config：未动
 - vis / alacritty / keyd / swappy：暂留
 - kanata：当前键盘映射，见 [kanata/README.md](kanata/README.md)；keyd 保留作回退

@@ -39,11 +39,12 @@ alias gl='git clone --depth=1'
 
 # Tab 多选，Enter 执行；Esc 取消。装/删仍确认；查询在 fzf 里打。已装标 *
 pacs() {
-	pacman -Sl core extra archlinuxcn |
+	pacman -Sl core extra multilib archlinuxcn |
 		awk '{
 			r = $1
 			if (r == "core") r = "co"
 			else if (r == "extra") r = "ex"
+			else if (r == "multilib") r = "ml"
 			else if (r == "archlinuxcn") r = "cn"
 			mark = ($NF == "[installed]") ? "*" : " "
 			printf "%-3s %s %s\n", r, $2, mark
