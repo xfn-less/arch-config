@@ -1,7 +1,7 @@
 [filechooser]
 cmd=yazi-wrapper.sh
 default_dir=$HOME
-# 与 d() 相同：清 NIRI_SOCKET，Alacritty 下走 Chafa 预览
-env=TERMCMD=env -u NIRI_SOCKET alacritty --title termfilechooser -e
+# foot sixel：yazi 直接预览图
+env=TERMCMD=foot -T termfilechooser
 open_mode=suggested
 save_mode=suggested

@@ -78,8 +78,8 @@ alias paco='sudo pacman -Rns $(pacman -Qdtq)'
 d() {
 	local tmp cwd
 	tmp=$(mktemp -t yazi-cwd.XXXXXX) || return
-	# alacritty 无图协议；清 NIRI_SOCKET，让内置预览走 Chafa（带缩图缓存）
-	(unset NIRI_SOCKET; command yazi "$@" --cwd-file="$tmp")
+	# foot sixel：yazi 直接预览图
+	command yazi "$@" --cwd-file="$tmp"
 	if cwd=$(<"$tmp") && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
 		builtin cd -- "$cwd" || return
 	fi

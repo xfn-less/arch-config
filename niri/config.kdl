@@ -79,12 +79,12 @@ spawn-at-startup "swayidle" "-w" \
     "timeout" "240" "niri msg action power-off-monitors"
 spawn-at-startup "swaybg" "-i" "/home/xfn/.config/niri/bg.jpg" "-m" "fill"
 spawn-at-startup "fcitx5"
-spawn-at-startup "alacritty"
+spawn-at-startup "foot"
 spawn-at-startup "wlsunset" "-l" "20" "-L" "100"
 
 binds {
     Mod+escape repeat=false { spawn-sh "swaylock -f -u -c 000001 && niri msg action power-off-monitors"; }
-    Mod+a repeat=false { spawn "alacritty"; }
+    Mod+a repeat=false { spawn "foot"; }
     Mod+c repeat=false { spawn "firefox"; }
     Mod+z repeat=false { spawn "64gram-desktop"; }
     Mod+return repeat=false { spawn "fuzzel"; }

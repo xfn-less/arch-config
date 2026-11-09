@@ -101,7 +101,7 @@ sudo pacman -Su --needed paru
 sudo pacman -S --needed \
   niri fuzzel swaybg swayidle swaylock \
   grim slurp wl-clipboard wlsunset brightnessctl \
-  alacritty firefox yazi \
+  foot firefox yazi \
   swayimg zathura zathura-pdf-poppler mpv \
   ttf-nerd-fonts-symbols \
   fcitx5 fcitx5-rime
@@ -120,11 +120,11 @@ systemctl --user enable --now ssh-agent.socket
 
 - bash / fzf：`pacs`（co/ex/ml/cn）/`parus`（全仓库+aur，已装`*`）/`pacr`/`paca`；`paco` 直接清孤儿
 - fcitx5 自定义 Rime、fontconfig、mihomo、msi-fan、xrdp-config：未动
-- vis / alacritty / keyd / swappy：暂留
+- vis / foot / keyd / swappy：暂留
 - kanata：当前键盘映射，见 [kanata/README.md](kanata/README.md)；keyd 保留作回退
 
 ### 已归档（`00archive/`）
 
-labwc / nvim / emacs / ghostty / bt / plasma-home-config / dbar / trial-desktops
+labwc / nvim / emacs / ghostty / alacritty / bt / plasma-home-config / dbar / trial-desktops
 
 GNOME / Plasma / XFCE / ly 试用账号与包已卸。

@@ -1,0 +1,7 @@
+[font]
+size = 15
+
+# Better remote/CLI color detection than bare TERM=alacritty
+[env]
+TERM = "xterm-256color"
+COLORTERM = "truecolor"
