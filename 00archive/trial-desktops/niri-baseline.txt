@@ -1,0 +1,27 @@
+# niri memory baseline
+# captured: 2026-11-08T21:53:31+07:00
+# user: xfn
+# session: XDG_CURRENT_DESKTOP=niri WAYLAND_DISPLAY=wayland-1
+# panel: eDP-1 2560x1600, niri scale 1.5 (Stealth 14)
+
+free:
+  Mem total 15Gi
+  used      3.4Gi   # whole machine incl. apps — NOT desktop-shell-only
+  available 11Gi
+
+session-ish RSS sum (niri+alacritty+fcitx5+dbar+portals+pw/wp+swaybg/idle/wlsunset):
+  ~673580 KiB  (~0.64 GiB)
+
+notable RSS:
+  alacritty   ~270 MiB   # content-dependent; empty term when comparing DEs
+  niri        ~146 MiB
+  fcitx5      ~60 MiB
+  dbar        ~32 MiB
+  portals     ~50 MiB combined
+  pipewire+pulse+wireplumber  ~74 MiB combined
+
+compare tip:
+  1) login target user, idle desktop, no browser
+  2) free -h  → note available
+  3) ps -eo rss,comm --sort=-rss | head
+  4) sum shell procs: niri | plasmashell+kwin_wayland | gnome-shell | xfwm4+xfce4-panel+xfce4-session

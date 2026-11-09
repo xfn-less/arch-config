@@ -1,6 +1,6 @@
 [bar]
 height = 24
-position = "top"
+position = "bottom"
 margin = 0
 gap = 0
 font = "Inconsolata 22"

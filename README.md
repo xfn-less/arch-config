@@ -103,34 +103,28 @@ sudo pacman -S --needed \
   grim slurp wl-clipboard wlsunset brightnessctl \
   alacritty firefox yazi \
   swayimg zathura zathura-pdf-poppler mpv \
-  dbar-bin ttf-nerd-fonts-symbols \
-  fcitx5 fcitx5-rime \
+  ttf-nerd-fonts-symbols \
+  fcitx5 fcitx5-rime
 ```
 
-TTY 启动：`dbus-run-session niri --session`（或显示管理器）。
+TTY 启动：`dbus-run-session niri --session`。
 配置主要只留 `niri/config.kdl`；文件管理用 yazi（`d` 启动，见 bash）；默认打开方式见 `mime/mimeapps.list`。
 
-浏览器「打开所在文件夹」需要 FileManager1：
 ```sh
-install -Dm755 yazi/yazi-filemanager1 ~/.local/bin/yazi-filemanager1
-install -Dm644 yazi/org.freedesktop.FileManager1.service ~/.local/share/dbus-1/services/org.freedesktop.FileManager1.service
-install -Dm644 yazi/yazi-filemanager1.service ~/.config/systemd/user/yazi-filemanager1.service
 install -Dm644 yazi/yazi.desktop ~/.local/share/applications/yazi.desktop
 install -Dm644 mime/mimeapps.list ~/.config/mimeapps.list
-systemctl --user enable --now yazi-filemanager1.service
-```
-
 systemctl --user enable --now ssh-agent.socket
+```
 
 ### 仍保留、尚未替换
 
-- bash / fzf：后续可换更开箱的 shell
+- bash / fzf：`pacs`/`parus`/`pacr`/`paca`/`paco` 已收成别名
 - fcitx5 自定义 Rime、fontconfig、mihomo、msi-fan、xrdp-config：未动
 - vis / alacritty / keyd / swappy：暂留
 - kanata：当前键盘映射，见 [kanata/README.md](kanata/README.md)；keyd 保留作回退
 
 ### 已归档（`00archive/`）
 
-labwc / nvim / emacs / ghostty / bt / plasma-home-config
+labwc / nvim / emacs / ghostty / bt / plasma-home-config / dbar / trial-desktops
 
-KDE/Plasma 已卸载；XFCE 也不在主线。
+GNOME / Plasma / XFCE / ly 试用账号与包已卸。
