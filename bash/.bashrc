@@ -37,12 +37,44 @@ export EDITOR=vis VISUAL=vis
 alias ld='ls -Alh --color=auto'
 alias gl='git clone --depth=1'
 
-# Tab 多选，Enter 执行；Esc 取消。装/删仍走 pacman、paru 确认；查询在 fzf 里打。
-alias pacs='pacman -Slq | fzf -m --preview "pacman -Si {1}" | xargs -r -o sudo pacman -S --needed --'
-alias parus='paru -Slqa | fzf -m --preview "paru -Sia {1}" | xargs -r -o paru -Sa --needed --'
+# Tab 多选，Enter 执行；Esc 取消。装/删仍确认；查询在 fzf 里打。已装标 *
+pacs() {
+	pacman -Sl core extra archlinuxcn |
+		awk '{
+			r = $1
+			if (r == "core") r = "co"
+			else if (r == "extra") r = "ex"
+			else if (r == "archlinuxcn") r = "cn"
+			mark = ($NF == "[installed]") ? "*" : " "
+			printf "%-3s %s %s\n", r, $2, mark
+		}' |
+		fzf -m --preview 'pacman -Si {2}' |
+		awk '{print $2}' |
+		xargs -r -o sudo pacman -S --needed --
+}
+
+parus() {
+	{
+		paru -Sl
+		paru -Sla
+	} |
+		awk '{
+			r = $1
+			if (r == "core") r = "co"
+			else if (r == "extra") r = "ex"
+			else if (r == "archlinuxcn") r = "cn"
+			else if (r == "multilib") r = "ml"
+			mark = ($NF == "[installed]") ? "*" : " "
+			printf "%-3s %s %s\n", r, $2, mark
+		}' |
+		fzf -m --preview 'paru -Si {2}' |
+		awk '{print $2}' |
+		xargs -r -o paru -S --needed --
+}
+
 alias pacr='pacman -Qqe | fzf -m --preview "pacman -Qi {1}" | xargs -r -o sudo pacman -Rns --'
 alias paca='pacman -Qq | fzf -m --preview "pacman -Qi {1}" | xargs -r -o sudo pacman -Rns --'
-alias paco='pacman -Qdtq | fzf -m --preview "pacman -Qi {1}" | xargs -r -o sudo pacman -Rns --'
+alias paco='sudo pacman -Rns $(pacman -Qdtq)'
 
 d() {
 	local tmp cwd
