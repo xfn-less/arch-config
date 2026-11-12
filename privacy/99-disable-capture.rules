@@ -1,0 +1,2 @@
+KERNEL=="video[0-9]*", MODE="0000"
+KERNEL=="media[0-9]*", MODE="0000"

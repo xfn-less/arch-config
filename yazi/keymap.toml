@@ -4,8 +4,4 @@ on = "<Esc>"
 run = "close"
 desc = "Cancel input"
 
-# Esc：取消选择/搜索等，并清掉 y/x 剪贴板（更接近「复位」）
-[[mgr.prepend_keymap]]
-on = "<Esc>"
-run = [ "unyank", "escape" ]
-desc = "Cancel visual/selection/search and clear yank"
+# mgr 的 Esc 保持鸭子默认：只 escape，不清 yank（用 Y/X）

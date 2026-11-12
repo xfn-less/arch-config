@@ -91,7 +91,20 @@ HISTFILESIZE=200000
 # erasedups: 写入时清掉历史里同命令；不要 ignorespace，行首空格也会记
 HISTCONTROL=erasedups
 shopt -s histappend lithist
-PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
+
+# foot：Ctrl+Shift+n 新窗落到当前目录（OSC-7）
+_osc7_cwd() {
+	local i c enc=
+	for ((i = 0; i < ${#PWD}; i++)); do
+		c=${PWD:i:1}
+		case $c in
+		[a-zA-Z0-9.~_/-]) enc+=$c ;;
+		*) printf -v c '%%%02X' "'$c"; enc+=$c ;;
+		esac
+	done
+	printf '\e]7;file://%s%s\e\\' "${HOSTNAME:-}" "$enc"
+}
+PROMPT_COMMAND="history -a; _osc7_cwd${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
 
 # OpenSSH agent (systemd --user ssh-agent.socket)
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
